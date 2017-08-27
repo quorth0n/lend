@@ -54,7 +54,7 @@ ROOT_URLCONF = 'lend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['rent/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
