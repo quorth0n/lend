@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 import firebase_admin
-from firebase_admin import credentials, auth
+from firebase_admin import auth, credentials
 
 from .forms import LoginForm
 
@@ -13,12 +13,13 @@ def index(req):
     return HttpResponse("Welcome to /rent. This will be our index app.")
 
 def auth(req):
-    #form = LoginForm()
+    form = LoginForm()
     if req.method == "POST":
         form = LoginForm(req.POST)
         if form.is_valid():
             print("Form is Valid")
-            auth = form.cleaned_data['auth_token']
-            user = auth.get_user(uid)
+            token = firebase_admin.auth.verify_id_token(req.POST.get('auth_token', None))
+            user = firebase_admin.auth.get_user(token['uid'])
+            print(user.uid)
 
     return render(req, 'rent/auth.html', {'form': form}) 

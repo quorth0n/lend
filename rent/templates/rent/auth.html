@@ -1,3 +1,17 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ",
+    authDomain: "lend-inc.firebaseapp.com",
+    databaseURL: "https://lend-inc.firebaseio.com",
+    projectId: "lend-inc",
+    storageBucket: "lend-inc.appspot.com",
+    messagingSenderId: "885390813463"
+  };
+  firebase.initializeApp(config);
+</script>
 {% block content %}
     <form method="post">
         {% csrf_token %}
@@ -5,4 +19,35 @@
         <input type="submit" value="Login">
     </form>
 {% endblock %}
-
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = document.querySelector('form');
+    firebase.auth().signInWithEmailAndPassword(form.querySelector('input[type=email]').value, form.querySelector('input[type=password]').value).catch(function(error){
+        var errorMessage = error.message;
+        alert(errorMessage);
+    }); 
+});
+firebase.auth().onAuthStateChanged(function(user) {
+  if(user){
+    user.getIdToken().then(sendAuth);
+  }
+});
+function auth_logout(){
+  firebase.auth().signOut().then(function() {
+    console.log('Signed Out');
+  }).catch(function(error) {
+    console.log(error);
+  });
+}
+function sendAuth(token){
+  var auth_form = document.querySelector('form');
+  var auth_token = document.createElement('input');
+  auth_token.setAttribute('type', 'hidden');
+  auth_token.setAttribute('name', 'auth_token');
+  auth_token.setAttribute('value', token);
+  auth_form.appendChild(auth_token);
+  auth_logout();
+  setInterval(function(){auth_form.submit();}, 5000);
+}
+</script>
