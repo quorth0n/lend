@@ -136,3 +136,8 @@ ENV/
 
 # End of https://www.gitignore.io/api/linux,django,python,database
 
+# Peter Stuff because he didn't want to clog
+Include
+Scripts
+tcl
+pip-selfcheck.json

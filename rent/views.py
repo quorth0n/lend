@@ -16,10 +16,10 @@ def auth(req):
     form = LoginForm()
     if req.method == "POST":
         form = LoginForm(req.POST)
+        token = firebase_admin.auth.verify_id_token(req.POST.get('auth_token', None))
+        user = firebase_admin.auth.get_user(token['uid'])
+        print(user.uid)
         if form.is_valid():
             print("Form is Valid")
-            token = firebase_admin.auth.verify_id_token(req.POST.get('auth_token', None))
-            user = firebase_admin.auth.get_user(token['uid'])
-            print(user.uid)
 
-    return render(req, 'rent/auth.html', {'form': form}) 
+    return render(req, 'rent/auth.html', {'form': form})

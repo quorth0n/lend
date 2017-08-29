@@ -1,0 +1,72 @@
+/*
+ * Auth.css
+ * ------------
+ * Provides the essential stylings for the lend authorisation page
+ * (C) Peter Richards (Created: 29/08/17)
+ */
+
+/* Spacing */
+.lend_login_box{
+  margin:auto;
+  display:block;
+  width:80%;
+  max-width:400px;
+}
+
+/* Form Stylings */
+input:not([type=submit]){
+  border-radius:5px;
+  border:1px solid #bfbfbf;
+  padding:10px;
+  width:calc(100% - 23px);
+  margin:5px 0;
+}
+
+.lend_login_provider_button{
+  width:calc(50% - 24px);
+  padding:10px;
+  border:1px solid #bfbfbf;
+  display:inline-block;
+  border-radius:5px;
+  text-align:center;
+  cursor:pointer;
+}
+
+.lend_login_provider_button:hover{
+  background-color:#dddddd;
+}
+
+.lend_login_submit{
+  text-align:center;
+  margin:10px 0;
+  border-radius:5px;
+  box-shadow: 0px 2px 5px 0px rgba(186,186,186,1);
+  color:#fff;
+  background-color:#00acff;
+  width:calc(100% - 20px);
+  padding:10px;
+  font-family:'Lato';
+  font-weight:bold;
+  font-size:20px;
+  transition:box-shadow 0.2s;
+  cursor:pointer;
+}
+
+.lend_login_submit:hover{
+  box-shadow: 0px 2px 22px 0px rgba(186,186,186,1);
+}
+
+/* Auth Notice */
+.firebase_auth_notice{
+  font-weight:bold;
+  text-align:center;
+  color:#e18328;
+  display:none;
+  visibility:hidden;
+  margin-top: 20px;
+}
+
+.firebase_auth_notice_visible{
+  display:block !important;
+  visibility:visible;
+}

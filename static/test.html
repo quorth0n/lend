@@ -10,15 +10,14 @@
       var firebase_config = {apiKey: "AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ",authDomain: "lend-inc.firebaseapp.com",databaseURL: "https://lend-inc.firebaseio.com",projectId: "lend-inc",storageBucket: "lend-inc.appspot.com",messagingSenderId: "885390813463"};
       firebase.initializeApp(firebase_config);
     </script>
+    <script type="text/javascript" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Ffirebase_auth.js?alt=media"></script>
     <!-- Load required stylesheets -->
     <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fmain.css?alt=media" />
     <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fauth.css?alt=media" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
-    <!-- Initialise main container -->
     <div class="lend_godBox">
-      <!-- Set the header -->
       <div class="lend_header">
         <div class="lend_header_left lend_header_element">
           <div style="vertical-align:middle;width:60%;margin:auto;"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Lend Logo" style="width:100%;" /></div>
@@ -34,26 +33,6 @@
           <a href="/auth/logout">Logout</a>
         </div>
       </div>
-      <!-- Login content block -->
-      <div class="lend_login_box">
-        {% block content %}
-            <form method="post">
-                {% csrf_token %}
-                <div style="text-align:center;"><h1>Login to Lend</h1></div>
-                <div class="border"></div>
-                <span style="font-size:15px;font-family:'Lato';">Email Address</span><br/>
-                {{ form.email }}<br/>
-                <span style="font-size:15px;font-family:'Lato';">Password</span><br/>
-                {{ form.password }}<br/><br/>
-                <div class="lend_login_provider_button" onclick="firebase_authenticate('google');">Login with Google</div>
-                <div class="lend_login_provider_button" onclick="firebase_authenticate('facebook');">Login with Facebook</div>
-                <br/><div class="firebase_auth_notice"></div><br/>
-                <div class="lend_login_submit" onclick="firebase_authenticate('email');">Login</div>
-            </form>
-        {% endblock %}
-      </div>
     </div>
-    <!-- Firebase Auth Scripts -->
-    <script type="text/javascript" src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Ffirebase_auth.js?alt=media"></script>
   </body>
 </html>
