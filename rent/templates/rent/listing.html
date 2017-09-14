@@ -1,7 +1,115 @@
-<h1>{{product.name}}</h1>
-<h2>Offered by {{product.owner}}</h2><span>Location: {{product.lat}}, {{product.lng}}</span>
-<h3>{{product.age}} years old</h3>
-<h3>{{product.rating}}/5 stars</h3>
-<h3>Pickup method: {{product.method}}</h3>
-<br>
-<h3>${{product.price}}/hr</h3>
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Load JS Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ"></script>
+    <!-- Load Firebase scripts -->
+    <script type="text/javascript">
+      //Initialise Firebase
+      var firebase_config = {apiKey: "AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ",authDomain: "lend-inc.firebaseapp.com",databaseURL: "https://lend-inc.firebaseio.com",projectId: "lend-inc",storageBucket: "lend-inc.appspot.com",messagingSenderId: "885390813463"};
+      firebase.initializeApp(firebase_config);
+    </script>
+    <!-- Load required stylesheets & scripts -->
+    <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fmain.css?alt=media" />
+    <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fproduct.css?alt=media" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript">
+      function calculateLocation(){if(navigator.geolocation){navigator.geolocation.getCurrentPosition(updateDistance);}}
+      function updateDistance(position){
+      var origin = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      var destination = new google.maps.LatLng({{product.lat}}, {{product.lng}});
+
+      var service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix(
+        {
+          origins: [origin],
+          destinations: [destination],
+          travelMode: 'DRIVING',
+          unitSystem: google.maps.UnitSystem.IMPERIAL
+        }, distanceCallback);
+      }
+
+      function distanceCallback(response, status) {
+        if(status === 'OK' && response.rows[0].elements[0].distance.text != ""){
+          $('#lendDistance').text('(' + response.rows[0].elements[0].distance.text.replace('mi', 'miles') + ' away)');
+        }
+      }
+
+      $(document).ready(calculateLocation);
+    </script>
+    <!-- Set up meta -->
+    <title>{{product.owner}}'s {{product.name}} - Lend</title>
+  </head>
+  <body>
+    <!-- Initialise main container -->
+    <div class="lend_godBox">
+      <!-- Set the header -->
+      <div class="lend_header">
+        <div class="lend_header_left lend_header_element">
+          <div style="vertical-align:middle;width:60%;margin:auto;"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Lend Logo" style="width:100%;" /></div>
+        </div>
+        <div class="lend_header_centre lend_header_element">
+          <div style="margin:auto;width:70%;vertical-align:middle;text-align:center;">
+            <input class="lend_header_search" placeholder="Search" />
+            <div class="lend_header_search_button">search</div>
+          </div>
+        </div>
+        <div class="lend_header_right lend_header_element">
+          Peter Richards<br/>
+          <a href="/auth/logout">Logout</a>
+        </div>
+        <br/>
+        <div style="text-align:center;margin:10px auto 0 auto;">
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <div style="display:inline-block;width:calc(40% - 4px);text-align:center;vertical-align:top;">
+          <img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/productImages%2F{{product.id}}.jpg?alt=media" style="width:90%;" alt="product image" />
+        </div>
+        <div style="display:inline-block;width:calc(50% - 4px);vertical-align:top;text-align:left;">
+          <h1 style="font-size:50px;">{{product.name}}</h1>
+          <span style="font-family:'Roboto';color:#626262;">Offered by: {{product.owner}} <span id="lendDistance"></span></span>
+          <br/><br/><br/>
+          <div style="display:inline-block;width:calc((100% / 3) - 4px);">
+            <div style="border-radius:15px;border:1px solid #9b9b9b;font-family:'Roboto';color:#6e6e6e;text-align:center;padding:15px;display:inline-block;width:calc(70%);"><span style="color:#00acff;font-size:40px;font-family:'Varela Round';">{{product.age}}</span><br/>Years Old</div>
+          </div>
+          <div style="display:inline-block;width:calc((100% / 3) - 4px);text-align:center;">
+            <div style="border-radius:15px;border:1px solid #9b9b9b;font-family:'Roboto';color:#6e6e6e;text-align:center;padding:15px;display:inline-block;width:calc(70%);"><span style="color:#00acff;font-size:40px;font-family:'Material Icons';">star</span><br/>{{product.rating}} / 5</div>
+          </div>
+          <div style="display:inline-block;width:calc((100% / 3) - 4px);text-align:right;">
+            <div style="border-radius:15px;border:1px solid #9b9b9b;font-family:'Roboto';color:#6e6e6e;text-align:center;padding:15px;display:inline-block;width:calc(70%);">
+                {% if product.method == '1' %}
+                <span style="color:#00acff;font-size:40px;font-family:'Material Icons';">local_shipping</span><br/>Delivery Only
+                {% endif %}
+                {% if product.method == '2' %}
+                <span style="color:#00acff;font-size:40px;font-family:'Material Icons';">airport_shuttle</span><br/>Pickup Only
+                {% endif %}
+                {% if product.method == '3' %}
+                <span style="color:#00acff;font-size:40px;font-family:'Material Icons';">local_shipping</span><br/>Delivery &amp; Pickup
+                {% endif %}
+                {% if product.method == '4' %}
+                <span style="color:#00acff;font-size:40px;font-family:'Varela Round';">?</span><br/>Other Delivery
+                {% endif %}
+            </div>
+          </div>
+          <br/><br/><br/>
+          <div style="border-radius:20px;background-color:#e8e8e8;padding:20px;">
+            <div style="display:inline-block;vertical-align:middle;width:calc(20% - 4px);"><span style="color:#00acff;font-size:40px;font-family:'Varela Round';">&#36;{{product.price}}</span><span style="font-size:20px;">/hr</span></div>
+            <div style="display:inline-block;vertical-align:middle;text-align:right;width:calc(80% - 4px);"><div style="cursor:pointer;background-color:#00acff;border-radius:10px;font-family:'Lato';font-weight:bold;font-size:20px;padding:10px 25px;display:inline-block;color:#fff;" class="button">Borrow This!</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
