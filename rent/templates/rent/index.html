@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Load JS Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ"></script>
+    <!-- Load required stylesheets & scripts -->
+    <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fmain.css?alt=media" />
+    <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fauth.css?alt=media" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Varela+Round" rel="stylesheet">
+    <!-- Set up meta -->
+    <title>Welcome! - Lend</title>
+  </head>
+  <body>
+    <!-- Initialise main container -->
+    <div class="lend_godBox">
+      <!-- Set the header -->
+      <div class="lend_header">
+        <div class="lend_header_left lend_header_element">
+          <div style="vertical-align:middle;width:60%;margin:auto;"><a href="/"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Lend Logo" style="width:100%;" /></a></div>
+        </div>
+        <div class="lend_header_centre lend_header_element">
+          <div style="margin:auto;width:70%;vertical-align:middle;text-align:center;">
+            <input class="lend_header_search" placeholder="Search" />
+            <div class="lend_header_search_button">search</div>
+          </div>
+        </div>
+        <div class="lend_header_right lend_header_element">
+          John Smith<br/>
+          <a href="/auth/logout">Logout</a>
+        </div>
+        <br/>
+        <div style="text-align:center;margin:10px auto 0 auto;">
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+        </div>
+      </div>
+
+      <div style="width:100%;text-align:center;">
+        <span style="font-family:'Varela Round';font-size:45px;font-weight:bold;">Welcome to Lend!</span><br/><br/>
+        Hey There! 👋<br/>Today we're going to show you some of the initial systems work that we've created along with some of our design.
+      </div>
+      <br/><br/>
+      <div style="width:calc((100% / 3) - 44px);display:inline-block;margin:0 20px;text-align:center;vertical-align:top;">
+        <div style="margin:auto;width:90%;color:#fff;font-family:'Varela Round';font-weight:bold;text-transform:uppercase;font-size:30px;text-align:center;border-radius:25px;overflow:hidden;box-shadow: 0px 0px 24px -1px rgba(194,194,194,1);"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2FproductPage.png?alt=media" alt="Take a look!" style="width:100%;vertical-align: top;"><br></div><br/><br/>
+        Take a look at a product listing page<br/><br/>
+        <a href="/rent/product/1234" target="_blank"><div class="lend_login_submit" style="max-width:70%;margin:auto;">Take a look!</div></a>
+      </div>
+
+      <div style="width:calc((100% / 3) - 44px);display:inline-block;margin:0 20px;text-align:center;vertical-align:top;">
+        <div style="margin:auto;width:90%;color:#fff;font-family:'Varela Round';font-weight:bold;text-transform:uppercase;font-size:30px;text-align:center;border-radius:25px;overflow:hidden;box-shadow: 0px 0px 24px -1px rgba(194,194,194,1);"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2FlendPage.png?alt=media" alt="Take a look!" style="width:100%;vertical-align: top;"><br></div><br/><br/>
+        Take a look at how lend works!<br/><br/>
+        <a href="https://youtu.be/mzlF9zGcBiE" target="_blank"><div class="lend_login_submit" style="max-width:70%;margin:auto;">Take a look!</div></a>
+      </div>
+
+      <div style="width:calc((100% / 3) - 44px);display:inline-block;margin:0 20px;text-align:center;vertical-align:top;">
+        <div style="margin:auto;width:90%;color:#fff;font-family:'Varela Round';font-weight:bold;text-transform:uppercase;font-size:30px;text-align:center;border-radius:25px;overflow:hidden;box-shadow: 0px 0px 24px -1px rgba(194,194,194,1);"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2FloginPage.png?alt=media" alt="Take a look!" style="width:100%;vertical-align: top;"><br></div><br/><br/>
+        Take a look at a login page, running on firebase!<br/><br/>
+        <a href="/rent/auth" target="_blank"><div class="lend_login_submit" style="max-width:70%;margin:auto;">Take a look!</div></a>
+      </div>
+
+    </div>
+  </body>
+</html>
