@@ -1,24 +1,26 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
+from django.conf import settings
+
 
 import firebase_admin
+import os
 from firebase_admin import auth, credentials
 
 from .forms import LoginForm
 from .models import Product
 
-default_app = firebase_admin.initialize_app(credentials.Certificate('firebase.json'))
+default_app = firebase_admin.initialize_app(credentials.Certificate(os.path.join(settings.BASE_DIR, '../rent/firebase.json')))
 
 # Create your views here.
 def index(req):
-    print(req.session['email'])
     #return HttpResponse("Welcome to /rent. This will be our index app.")
     return render(req, 'rent/index.html')
 
 def auth(req):
     form = LoginForm()
-    print(req.session['name']);
+    #print(req.session['name']);
     if req.method == "POST":
         form = LoginForm(req.POST)
 

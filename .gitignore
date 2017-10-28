@@ -141,3 +141,10 @@ Include
 Scripts
 tcl
 pip-selfcheck.json
+
+#Server
+log.txt
+mysite_nginx.conf
+mysite_uwsgi.ini
+nginx.conf
+uwsgi_params
