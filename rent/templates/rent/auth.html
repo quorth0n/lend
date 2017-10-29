@@ -30,8 +30,12 @@
           </div>
         </div>
         <div class="lend_header_right lend_header_element">
-          John Smith<br/>
-          <a href="/auth/logout">Logout</a>
+          {% if request.session.name == None %}
+            <a href="/rent/auth">Sign in</a>
+          {% else %}
+            {{ request.session.name }}<br/>
+            <a href="/rent/logout">Logout</a>
+          {% endif %}
         </div>
         <br/>
         <div style="text-align:center;margin:10px auto 0 auto;">
