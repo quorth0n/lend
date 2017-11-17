@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.conf import settings
 
@@ -8,7 +8,7 @@ import firebase_admin
 import os
 from firebase_admin import auth, credentials
 
-from .forms import LoginForm
+from .forms import LoginForm, ListingForm
 from .models import Product
 
 default_app = firebase_admin.initialize_app(credentials.Certificate(os.path.join(settings.BASE_DIR, 'rent/firebase.json')))
@@ -20,7 +20,6 @@ def index(req):
 
 def auth(req):
     form = LoginForm()
-    #print(req.session['name']);
     if req.method == "POST":
         form = LoginForm(req.POST)
 
@@ -50,5 +49,28 @@ class ProductView(generic.DetailView):
 
 
 def plisting(req, product_id):
-    print(req.session['name']);
+    #print(req.session['name']);
     return HttpResponse(req, "rent/listing.html")
+
+def plisting_form(req):
+    if 'name' not in req.session:
+        return HttpResponseRedirect('/rent/auth')
+    else:
+        form = ListingForm()
+        # if this is a POST req we need to process the form data
+        if req.method == 'POST':
+            # create a form instance and populate it with data from the req:
+            form = ListingForm(req.POST)
+            # check whether it's valid:
+            if form.is_valid():
+                # process the data in form.cleaned_data as required
+                print(form.cleaned_data)
+                post_data = ListingForm(req.POST)
+                new_product = post_data.save()
+                new_product.owner = req.session['uid'] 
+                new_product.save()
+
+                # redirect to a new URL:
+                return HttpResponseRedirect('/product/'+str(new_product.pk))
+
+        return render(req, 'rent/plisting_form.html', {'form': form})
