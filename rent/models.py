@@ -5,7 +5,7 @@ from decimal import *
 # Create your models here.
 class Product(models.Model):
     name = models.CharField(max_length=50)
-    owner = models.CharField(max_length=20)
+    owner = models.CharField(max_length=40)
     age = models.SmallIntegerField(validators=[MinValueValidator(Decimal('0'))])
     rating = models.SmallIntegerField(default=0)
     ACQUISITION_METHODS = (
