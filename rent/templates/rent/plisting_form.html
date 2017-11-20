@@ -1,5 +1,23 @@
 <form action="" method="post">
     {% csrf_token %}
-    {{ form }}
+    {{ form.as_p }}
+    Address: <input type="text" id="address">
     <input type="submit" value="Submit" />
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ"></script>
+    <script type="text/javascript">
+        document.getElementById('address').addEventListener('input', function (evt) {
+            var geocoder = new google.maps.Geocoder();
+            var address = this.value;
+
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                console.log(results);
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+                    document.getElementsByName('lat')[0].value = latitude;
+                    document.getElementsByName('lng')[0].value = longitude;
+                } 
+            }); 
+        });
+    </script>
 </form>
