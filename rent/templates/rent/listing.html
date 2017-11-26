@@ -4,7 +4,6 @@
     <!-- Load JS Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
-    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ"></script>
     <!-- Load Firebase scripts -->
     <script type="text/javascript">
       //Initialise Firebase
@@ -15,6 +14,9 @@
     <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fmain.css?alt=media" />
     <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fproduct.css?alt=media" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Start Google Maps bits & bobs -->
+    <script type="text/javascript">function loadMap(){map = new google.maps.Map(document.getElementById('map'), {center: {lat: {{product.lat}}, lng: {{product.lng}}},zoom: 14});var marker = new google.maps.Marker({position: {lat: {{product.lat}}, lng: {{product.lng}}}, map: map});}</script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ&callback=loadMap" async defer></script>
     <script type="text/javascript">
       function calculateLocation(){if(navigator.geolocation){navigator.geolocation.getCurrentPosition(updateDistance);}}
       function updateDistance(position){
@@ -112,6 +114,10 @@
             <div style="display:inline-block;vertical-align:middle;width:calc(20% - 4px);"><span style="color:#00acff;font-size:40px;font-family:'Varela Round';">&#36;{{product.price}}</span><span style="font-size:20px;">/hr</span></div>
             <div style="display:inline-block;vertical-align:middle;text-align:right;width:calc(80% - 4px);"><div style="cursor:pointer;background-color:#00acff;border-radius:10px;font-family:'Lato';font-weight:bold;font-size:20px;padding:10px 25px;display:inline-block;color:#fff;" class="button">Borrow This!</div></div>
           </div>
+          <br/><br/>
+          <div style="border-radius:20px;background-color:#e8e8e8;padding:20px;height:200px;overflow:hidden;" id="map">
+            Loading...
+          </div>
         </div>
       </div>
     </div>
@@ -134,7 +140,7 @@
       </div>
     </div>
     <div class="footer">
-      <a href="https://yingatech.com" target="_blank"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Lend Logo" style="width:80%;max-width:200px;" /></a><br /><br/>
+      <a href="#" target="_blank"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Lend Logo" style="width:80%;max-width:200px;" /></a><br /><br/>
       <span style="font-size:10px;">Registered company in somewhere (Company number: #0000000)<br />Registered Office: 123 Fake Street, CA</span>
     </div>
   </body>
