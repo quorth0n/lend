@@ -9,4 +9,3 @@ class ListingForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'age', 'method', 'price', 'lat', 'lng']
-

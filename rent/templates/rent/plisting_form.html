@@ -1,23 +1,120 @@
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    Address: <input type="text" id="address">
-    <input type="submit" value="Submit" />
-    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ"></script>
-    <script type="text/javascript">
-        document.getElementById('address').addEventListener('input', function (evt) {
-            var geocoder = new google.maps.Geocoder();
-            var address = this.value;
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Load JS Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <!-- Load required stylesheets & scripts -->
+    <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fmain.css?alt=media" />
+    <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fauth.css?alt=media" />
+    <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fnew_product.css?alt=media" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Varela+Round" rel="stylesheet">
+    <!-- Set up meta -->
+    <title>Welcome! - Lend</title>
+  </head>
+  <body>
+    <!-- Initialise main container -->
+    <div class="lend_godBox">
+      <!-- Set the header -->
+      <div class="lend_header">
+        <div class="lend_header_left lend_header_element">
+          <div style="vertical-align:middle;width:60%;margin:auto;"><a href="/"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Lend Logo" style="width:100%;" /></a></div>
+        </div>
+        <div class="lend_header_centre lend_header_element">
+          <div style="margin:auto;width:70%;vertical-align:middle;text-align:center;">
+            <input class="lend_header_search" placeholder="Search" />
+            <div class="lend_header_search_button">search</div>
+          </div>
+        </div>
+        <div class="lend_header_right lend_header_element">
+          {% if request.session.name == None %}
+            <a href="/rent/auth">Sign in</a>
+          {% else %}
+            {{ request.session.name }}<br/>
+            <a href="/rent/logout">Logout</a>
+          {% endif %}
+        </div>
+        <br/>
+        <div style="text-align:center;margin:10px auto 0 auto;">
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+          <div class="lend_header_category">Misc</div>
+        </div>
+      </div>
 
-            geocoder.geocode( { 'address': address}, function(results, status) {
-                console.log(results);
-                if (status == google.maps.GeocoderStatus.OK) {
+      <div style="width:100%;text-align:center;">
+        <span style="font-family:'Varela Round';font-size:45px;font-weight:bold;">New Listing</span><br/><br/>
+        You've got something to lend? Awesome! 🙌 Enter the details below and we'll get started.
+      </div>
+      <br/><br/>
+      <!-- Begin new product map -->
+      <div class="inline" style="width:calc(50% - 24px);margin-right:20px;height:500px;" id="map">
+        Loading
+      </div>
+
+      <!-- Begin new product form -->
+      <div class="inline" style="width:calc(50% - 4px);">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            Address: <input type="text" id="address">
+            <br/><br/>
+            <input type="submit" value="Add Listing" style="border:0;margin:auto;display:inline-block;" class="lend_login_submit" />
+            <script type="text/javascript">
+              //When the Google maps script loads in, create a default map centred around 0,0
+              function loadMap(){map = new google.maps.Map(document.getElementById('map'), {center: {lat: 0, lng: 0},zoom: 1});}
+              //When Ready, add the event listener
+              document.getElementById('address').addEventListener('input', function (evt) {
+                //Define Constants
+                var geocoder = new google.maps.Geocoder();
+                var address = this.value;
+
+                //Geocoder Callback
+                geocoder.geocode({'address': address}, function(results, status){
+                  console.log(results);
+                  if (status == google.maps.GeocoderStatus.OK) {
                     var latitude = results[0].geometry.location.lat();
                     var longitude = results[0].geometry.location.lng();
                     document.getElementsByName('lat')[0].value = latitude;
                     document.getElementsByName('lng')[0].value = longitude;
-                } 
-            }); 
-        });
-    </script>
-</form>
+                    //Generate Map
+                    map = new google.maps.Map(document.getElementById('map'), {center: {lat: latitude, lng: longitude},zoom: 16});
+                    var marker = new google.maps.Marker({position: {lat: latitude, lng: longitude}, map: map});
+                  }
+                });
+              });
+            </script>
+            <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ&callback=loadMap" async defer></script>
+        </form>
+      </div>
+    </div>
+    <!-- Begin Footer -->
+    <br/><br/>
+    <div class="footer" style="background-color:#f0f0f0;">
+      <div class="footerBlock">
+        <h3>Legal</h3><br />
+        <a href="#">Terms &amp; Conditions</a><br /><br />
+        <a href="#" target="_blank">Privacy</a>
+      </div>
+      <div class="footerBlock">
+        <h3>Help</h3><br />
+        <a href="#">Placeholder</a><br /><br />
+        (<span style="font-family:'Material Icons';vertical-align:middle;">&#xE0B0;</span> 347 932 3543)
+      </div>
+      <div class="footerBlock">
+        <h3>About Us</h3><br />
+        <a href="#">Placeholder</a><br /><br />
+      </div>
+    </div>
+    <div class="footer">
+      <a href="https://yingatech.com" target="_blank"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Lend Logo" style="width:80%;max-width:200px;" /></a><br /><br/>
+      <span style="font-size:10px;">Registered company in somewhere (Company number: #0000000)<br />Registered Office: 123 Fake Street, CA</span>
+    </div>
+  </body>
+</html>

@@ -16,9 +16,14 @@ html, body{
   color:#626262;
 }
 
+.inline{
+  display:inline-block;
+  vertical-align:top;
+}
+
 .lend_godBox{
   width:calc(100% - 60px);
-  height:100%;
+  min-height:100%;
   margin:0 30px;
   padding:0;
   display:block;
@@ -36,6 +41,10 @@ a:hover{
 h1, h2{
   color:#00acff;
   font-family:'Lato';
+  margin:0;
+}
+
+h3{
   margin:0;
 }
 
@@ -121,4 +130,25 @@ h1, h2{
 
 .lend_header_category:hover{
   background-color:#eaeaea !important;
+}
+
+/* Footer Stylings */
+.footer{
+	width:100%;
+	padding:40px 0;
+	text-align:center;
+}
+
+.footerBlock{
+  width:calc((80% / 3) - 4px);
+  display:inline-block;
+  vertical-align:top;
+}
+
+@media all and (max-width: 650px){
+	.footerBlock{
+		display:block;
+    width:auto;
+    margin:35px 0;
+	}
 }
