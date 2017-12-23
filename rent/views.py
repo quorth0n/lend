@@ -3,13 +3,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.conf import settings
 
-
 import firebase_admin
 import os
 from firebase_admin import auth, credentials
 
 from .forms import LoginForm, ListingForm
-from .models import Product
+from .models import Product, User
 
 default_app = firebase_admin.initialize_app(credentials.Certificate(os.path.join(settings.BASE_DIR, 'rent/firebase.json')))
 
@@ -45,8 +44,14 @@ def auth(req):
 class ProductView(generic.DetailView):
     model = Product
     template_name = "rent/listing.html"
-    #print(req.session['name']);
 
+class UserView(generic.DetailView):
+    model = User
+    template_name = "rent/profile.html"
+
+    def get_object(self):
+        print(User.objects.get(uname=self.kwargs['uname']))
+        return User.objects.get(uname=self.kwargs['uname'])
 
 def plisting(req, product_id):
     #print(req.session['name']);

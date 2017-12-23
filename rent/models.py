@@ -20,3 +20,13 @@ class Product(models.Model):
     lng = models.DecimalField(default=0.00000000, max_digits=11, decimal_places=8)
     posted = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
+
+class User(models.Model):
+    uname = models.SlugField(max_length=40)
+    bio = models.CharField(max_length=300)
+    lat = models.DecimalField(default=0.0000000, max_digits=10, decimal_places=8)
+    lng = models.DecimalField(default=0.00000000, max_digits=11, decimal_places=8)
+    joined = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.uname
