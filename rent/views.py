@@ -7,7 +7,7 @@ import firebase_admin
 import os
 from firebase_admin import auth, credentials
 
-from .forms import LoginForm, ListingForm
+from .forms import LoginForm, ListingForm, ProfileForm 
 from .models import Product, User
 
 default_app = firebase_admin.initialize_app(credentials.Certificate(os.path.join(settings.BASE_DIR, 'rent/firebase.json')))
@@ -79,3 +79,49 @@ def plisting_form(req):
                 return HttpResponseRedirect('/product/'+str(new_product.pk))
 
         return render(req, 'rent/plisting_form.html', {'form': form})
+
+def profile_form(req, uname):
+    print(req.session['name'])
+    print(uname)
+    if 'name' not in req.session or req.session['name'] != uname:
+        return HttpResponseRedirect('/rent/auth')
+    else:
+
+        # if this is a POST req we need to process the form data
+        if req.method == 'POST':
+            # create a form instance and populate it with data from the req:
+            if User.objects.filter(uname=uname).exists():
+                user=User.objects.get(uname=uname)
+                form = ProfileForm(req.POST, instance=user)
+            else:
+                form = ProfileForm(req.POST)
+
+            # check whether it's valid:
+            if form.is_valid():
+                # process the data in form.cleaned_data as required
+                print(form.cleaned_data)
+                new_user = form.save()
+                new_user.uname = req.session['name'] 
+                new_user.save()
+                #new_user.uname = req.session['name']
+                #new_user.save()
+                #form.save_m2m()
+                #User.objects.get()req.session['uname']
+                #post_data = ProfileForm(req.POST)
+                #new_profile = post_data.save()
+                #if not new_profile.uname:
+                #    new_profile.uname = req.session['name']
+                #new_profile.save()
+
+                # redirect to a new URL:
+                return HttpResponseRedirect('/user/'+str(new_user.uname))
+        else:
+            if User.objects.filter(uname=uname).exists():
+                user=User.objects.get(uname=uname)
+                form = ProfileForm(instance=user)
+            else:
+                form = ProfileForm()
+
+
+        return render(req, 'rent/plisting_form.html', {'form': form})
+
