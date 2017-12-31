@@ -14,8 +14,8 @@ import os
 import os.path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '3$2j29m2yv6&j%ghe$o(!rnjo906wizkc1q@_+&%_+lo^sh9zd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False 
+DEBUG = True
 
-ALLOWED_HOSTS =  ['localhost', 'lend-inc.com', 'www.lend-inc.com', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -80,9 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'lend',
         'USER': 'postgres',
-        'PASSWORD': '13375p3@k',
-	'HOST': 'localhost',
-	'PORT': '',
+        'PASSWORD': '13375p3@k'
     }
 }
 
