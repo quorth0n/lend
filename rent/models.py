@@ -2,6 +2,15 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from decimal import *
 
+import firebase_admin
+from firebase_admin import credentials, storage
+
+default_app = firebase_admin.initialize_app(credentials.Certificate('rent/firebase.json'), {
+    'storageBucket': 'lend-inc.appspot.com'
+})
+
+bucket = storage.bucket()
+
 # Create your models here.
 class Product(models.Model):
     name = models.CharField('Product Title', max_length=50)
@@ -20,6 +29,11 @@ class Product(models.Model):
     lng = models.DecimalField(default=0.00000000, max_digits=11, decimal_places=8)
     posted = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
+    def delete(self):
+        print(self.pk)
+        blob = bucket.blob('productImages/'+self.pk+'.jpg')
+        blob.delete()
+
 
 class User(models.Model):
     uname = models.SlugField(max_length=40)

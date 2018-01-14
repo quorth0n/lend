@@ -8,9 +8,10 @@ import os
 from firebase_admin import auth, credentials
 
 from .forms import LoginForm, ListingForm, ProfileForm 
-from .models import Product, User
+from .models import Product, User, default_app
 
-default_app = firebase_admin.initialize_app(credentials.Certificate(os.path.join(settings.BASE_DIR, 'rent/firebase.json')))
+
+#default_app = firebase_admin.initialize_app(credentials.Certificate(os.path.join(settings.BASE_DIR, 'rent/firebase.json')))
 
 # Create your views here.
 def index(req):
