@@ -5,6 +5,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
     <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAq8KzJlvBY4rul4y-_UiasbmeUCu93TIQ"></script>
+    <script>
+    !function(e,n,t,r){
+        function o(){try{var e;if((e="string"==typeof this.response?JSON.parse(this.response):this.response).url){
+        var t=n.getElementsByTagName("script")[0],r=n.createElement("script");r.async=!0,r.src=e.url,t.parentNode.insertBefore(r,t)}}catch(e){}}
+        var s,p,a,i=[],c=[];e[t]={init:function(){s=arguments;var e={then:function(n){return c.push({type:"t",next:n}),e},catch:function(n){
+        return c.push({type:"c",next:n}),e}};return e},on:function(){i.push(arguments)},render:function(){p=arguments},destroy:function(){a=arguments}},
+        e.__onWebMessengerHostReady__=function(n){if(delete e.__onWebMessengerHostReady__,e[t]=n,s)for(var r=n.init.apply(n,s),o=0;o<c.length;o++){
+        var u=c[o];r="t"===u.type?r.then(u.next):r.catch(u.next)}p&&n.render.apply(n,p),a&&n.destroy.apply(n,a);for(o=0;o<i.length;o++)n.on.apply(n,i[o])};
+        var u=new XMLHttpRequest;u.addEventListener("load",o),u.open("GET","https://"+r+".webloader.smooch.io/",!0),u.responseType="json",u.send()
+    }(window,document,"Smooch","5ac3b282df40d5002215fc41")
+    </script>
     <!-- Load required stylesheets & scripts -->
     <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fmain.css?alt=media" />
     <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Fauth.css?alt=media" />
@@ -94,5 +105,8 @@
       <a href="#" target="_blank"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Lend Logo" style="width:80%;max-width:200px;" /></a><br /><br/>
       <span style="font-size:10px;">Registered company in somewhere (Company number: #0000000)<br />Registered Office: 123 Fake Street, CA</span>
     </div>
+    <script>
+      Smooch.init({ appId: '5ac3b282df40d5002215fc41' });
+    </script>
   </body>
 </html>
