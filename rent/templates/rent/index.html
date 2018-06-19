@@ -64,7 +64,8 @@
         Hey There! 👋<br/>Today we're going to show you some of the initial systems work that we've created along with some of our design.
       </div>
       <br/><br/>
-      <div style="width:calc((100% / 3) - 44px);display:inline-block;margin:0 20px;text-align:center;vertical-align:top;">
+
+      <!--<div style="width:calc((100% / 3) - 44px);display:inline-block;margin:0 20px;text-align:center;vertical-align:top;">
         <div style="margin:auto;width:90%;color:#fff;font-family:'Varela Round';font-weight:bold;text-transform:uppercase;font-size:30px;text-align:center;border-radius:25px;overflow:hidden;box-shadow: 0px 0px 24px -1px rgba(194,194,194,1);"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2FproductPage.png?alt=media" alt="Take a look!" style="width:100%;vertical-align: top;"><br></div><br/><br/>
         Take a look at a product listing page<br/><br/>
         <a href="/rent/product/1234" target=""><div class="lend_login_submit" style="max-width:70%;margin:auto;">Take a look!</div></a>
@@ -81,6 +82,25 @@
         Take a look at a login page, running on firebase!<br/><br/>
         <a href="/rent/auth" target=""><div class="lend_login_submit" style="max-width:70%;margin:auto;">Take a look!</div></a>
       </div>
+      <br/><br/>
+      <div style="width:calc((100% / 3) - 44px);display:inline-block;margin:0 20px;text-align:center;vertical-align:top;">
+        <div style="margin:auto;width:90%;color:#fff;font-family:'Varela Round';font-weight:bold;text-transform:uppercase;font-size:30px;text-align:center;border-radius:25px;overflow:hidden;box-shadow: 0px 0px 24px -1px rgba(194,194,194,1);"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2FloginPage.png?alt=media" alt="Take a look!" style="width:100%;vertical-align: top;"><br></div><br/><br/>
+        Take a look at a login page, running on firebase!<br/><br/>
+        <a href="/rent/auth" target=""><div class="lend_login_submit" style="max-width:70%;margin:auto;">Take a look!</div></a>
+      </div>-->
+
+      <center><span style="font-family:'Varela Round';font-size:30px;font-weight:bold;">Recent Listings</span><br/><br/></center>
+      {% for product in recent_listings %}
+        <div style="width:calc((100% / 3) - 44px);display:inline-block;margin:0 20px;text-align:center;vertical-align:top;">
+          <div style="margin:auto;width:90%;color:#fff;font-family:'Varela Round';font-weight:bold;text-transform:uppercase;font-size:30px;text-align:center;border-radius:25px;overflow:hidden;box-shadow: 0px 0px 24px -1px rgba(194,194,194,1);"><img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/productImages%2F{{ product.pk }}.jpg?alt=media" alt="Take a look!" style="width:100%;vertical-align: top;"><br></div>
+          <strong style="font-size:20px;"> {{product.name}} </strong><br/>
+          Offered by {{product.owner}}
+          <br/><br/>
+        </div>
+        {% if forloop.counter == 3 %}
+          <br/><br/>
+        {% endif %}
+      {% endfor %}
 
     </div>
     <!-- Begin Footer -->

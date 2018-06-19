@@ -16,7 +16,9 @@ from .models import Product, User, default_app
 # Create your views here.
 def index(req):
     #return HttpResponse("Welcome to /rent. This will be our index app.")
-    return render(req, 'rent/index.html')
+    products = Product.objects.order_by("-updated")[:15]
+    print(products)
+    return render(req, 'rent/index.html', {'recent_listings': products})
 
 def auth(req):
     form = LoginForm()
