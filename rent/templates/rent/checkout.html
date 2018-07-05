@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Yingatech Payments Gateway</title>
+    <meta name="viewport" content="width=device-width"/>
+    <!-- Include Stylesheets -->
+    <style>
+        /*
+ * Payment page payments CSS
+ * ====================
+ * Sets the main stylings for the payment details page
+ */
+
+/* -- SPECIFY CONTAINERS --*/
+.payments_details_centre_container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  display: block;
+  width: 100%;
+  margin:auto;
+  text-align:center;
+}
+
+.payments_details_main_container{
+  width:60%;
+  max-height:450px;
+  height:100%;
+  background-color:#fff;
+  margin:auto;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow: 0px 2px 20px 5px rgba(196,196,196,1);
+}
+
+.payments_details_container{
+  padding:20px;
+  display:inline-block;
+  vertical-align:top;
+  width:calc(50% - 40px);
+  overflow:auto;
+  height:100%;
+}
+
+.payments_details_container_large{
+  width:calc(70% - 40px);
+}
+
+.payments_details_container_dark{
+  background-color:#1c81d8;
+  color:#fff;
+}
+
+.payments_details_logo{
+  font-weight:bold;
+  font-size:20px;
+  font-family:'Cabin';
+  text-align:left;
+  margin:auto;
+}
+
+@media all and (max-width:1400px){
+  .payments_details_container{
+    width:35%;
+  }
+
+  .payments_details_container_large{
+    width:45% !important;
+  }
+}
+
+@media all and (max-width:650px){
+  .payments_details_container{
+    width:80% !important;
+    display:block;
+    margin:20px auto;
+  }
+
+  .payments_details_centre_container{
+    position: relative;
+    top: auto;
+    left:auto;
+    transform: none;
+    -webkit-transform: none;
+    padding:20px 0;
+  }
+}
+
+/* -- STRIPE ELEMENTS -- */
+label{
+  color:#31325F;
+}
+
+.stripeElement {
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.payments_details_field{
+  background: transparent;
+  font-weight: 300;
+  border: 0;
+  color: #fff;
+  outline: none;
+  cursor: text;
+  padding:5px 0;
+  font-family: 'Cabin', Helvetica;
+  font-size: 16px;
+  width:100%;
+}
+
+.payments_details_field::placeholder{
+  color: #e0d9e3;
+}
+
+.payments_form_button{
+  background-color:#fff;
+  color:#767676;
+  padding:10px;
+  width:60%;
+  margin:auto;
+  border:0;
+  border-radius:10px;
+  font-size:20px;
+  font-family:'Cabin', Helvetica;
+  box-shadow: 0 7px 14px 0 rgba(49,49,93,0.10),
+              0 3px 6px 0 rgba(0,0,0,0.18);
+  font-weight:bold;
+  cursor:pointer;
+  transition:background-color 0.25s;
+}
+
+
+/* -- PAYMENTS SUCCESS AND ERROR STYLINGS -- */
+.payments_form_button:hover{
+  background-color:#eeeeee;
+}
+
+.payments_details_success, .payments_details_error{
+  display:none;
+}
+
+.payments_details_error{
+  color: #fabe5a;
+}
+
+.payments_details_success{
+  color: #67e866;
+}
+
+.payments_details_status_visible{
+  display:block !important;
+}
+
+        /*
+ * Main payments CSS
+ * ====================
+ * Sets the main stylings for all pages
+ */
+
+/* -- INCLUDE FONTS --*/
+@import url('https://fonts.googleapis.com/css?family=Cabin|Varela');
+
+/* -- MAIN STYLINGS -- */
+body, html{
+  width:100%;
+  height:100%;
+  padding:0;
+  margin:0;
+  background-color:#dee5eb;
+  font-family:'Cabin';
+  color:#7b7b7b;
+}
+
+.payments_border{
+  border-bottom:1px solid #d9d9d9;
+  width:100%;
+  margin:auto;
+}
+
+.payments_border_dark{
+  border-bottom:1px solid #fff;
+  width:100%;
+  margin:auto;
+}
+
+.inline{
+  display:inline-block;
+}
+
+.top{
+  vertical-align:top;
+}
+
+/* -- TEXT STYLINGS -- */
+h1,h2,h3{
+  margin:0;
+}
+
+    </style>
+    <!-- Include Stripe.js & Initialise -->
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <!-- Create central container to house all the elements -->
+    <div class="payments_details_centre_container">
+      <!-- Set up the main container -->
+      <div class="payments_details_main_container">
+        <!-- Set up Left hand side -->
+        <div class="payments_details_container">
+          <!-- Set up the YingaTech Logo -->
+          <div class="payments_details_logo">
+            <img src="https://firebasestorage.googleapis.com/v0/b/lend-inc.appspot.com/o/static%2Flogo.svg?alt=media" alt="Yingatech Logo" style="width:150px;vertical-align:middle;" /><span style="vertical-align:middle;margin-left:10px;">Payment Gateway</span>
+          </div><br/>
+          <!-- Show the charges -->
+          <div style="max-height:300px;overflow:auto;">
+            <div class="payments_border" style="margin:0 0 15px 0;"></div>
+
+            <div class="inline top" style="width:75%;text-align:left;">
+              Product Description
+            </div><div class="inline top" style="width:25%;text-align:right;">
+              Price
+            </div>
+            <?php
+            //Assemble the order summary
+            $payments_total = 0;
+            foreach (json_decode($payments_order['ORDER_ITEMS'], true) as $payments_order_row){
+              //Ensure that we're not adding negative charges, if we are, ignore this row, if not, add to total cost
+              if($payments_order_row['price'] > 0 && $payments_order_row['quantity'] > 0){$payments_total += number_format($payments_order_row['price'] * $payments_order_row['quantity'], 2, '.', '');}else{continue;}
+              //Create the row ?>
+              <div class="payments_border" style="margin:15px 0;"></div>
+
+              <div class="inline top" style="width:75%;text-align:left;">
+                <span style="color:#666ee8;font-weight:bold;"><?= $payments_order_row['name']; ?> <?php if($payments_order_row['quantity'] != 1){echo "(x" . $payments_order_row['quantity'] .  ")";} ?></span><br/>
+                <?= $payments_order_row['desc']; ?>
+              </div><div class="inline top" style="width:25%;text-align:right;">
+                <span style="color:#4cc04b;font-weight:bold;"><?= $payments_currency . number_format($payments_order_row['price'] * $payments_order_row['quantity'], 2, '.', ''); ?></span>
+              </div>
+            <?php }
+            //If there is an extra delivery cost, add that on too
+            if($payments_order['ORDER_DELIVERY'] > 0){
+              //Add to total
+              $payments_total += $payments_order['ORDER_DELIVERY'];
+              //Construct order summary row ?>
+              <div class="payments_border" style="margin:15px 0;"></div>
+
+              <div class="inline top" style="width:75%;text-align:left;">
+                <span style="color:#e88b66;font-weight:bold;">Delivery Cost</span>
+              </div><div class="inline top" style="width:25%;text-align:right;">
+                <span style="color:#4cc04b;font-weight:bold;"><?= $payments_currency . number_format($payments_order['ORDER_DELIVERY'], 2, '.', ''); ?></span>
+              </div>
+            <?php }
+            ?>
+          </div>
+        </div><div class="payments_details_container payments_details_container_dark">
+          <!-- Set up the payment details container -->
+          <h2>Payment Information</h2>
+          Please enter your details below!<br/><br/>
+          <div class="payments_border_dark" style="width:25%;"></div><br/>
+          <form id="stripe_payments_form" action="process.php" method="POST">
+            <div style="text-align:left;">
+              <!-- Set up Stripe Elements -->
+              <label for="payments_customer_name">Name</label><br/>
+              <input id="payments_customer_name" name="payments_customer_name" class="payments_details_field" placeholder="John Smith" autocomplete='off' /><br/><br/>
+              <label for="payments_customer_email">Email Address</label><br/>
+              <input id="payments_customer_email" name="payments_customer_email" class="payments_details_field" placeholder="john@example.com" autocomplete='off' /><br/><br/>
+              <label for="payments_stripe_elements_card">Card Details</label><br/>
+              <div id="payments_stripe_elements_card"></div>
+            </div><br/>
+            <div class="payments_details_outcome"><div class="payments_details_error" role="alert"></div></div>
+            <br/><br/>
+            <button class="payments_form_button" type="submit">Pay <?= $payments_currency . number_format($payments_total, 2, '.', ''); ?></button><br/><br/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Convert Elements -->
+   <script>/*
+    * Main payments details JS
+    * ========================
+    * Sets the main JS for payments details
+    */
+   
+   //Function to grab GET vars
+   function GET(variable){
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=0;i<vars.length;i++) {
+              var pair = vars[i].split("=");
+              if(pair[0] == variable){return pair[1];}
+      }
+      return(false);
+   }
+   
+   //Initialise Stripe
+   //TODO: ADD API KEY
+   var payments_stripe = Stripe('');
+   var payments_stripe_elements = payments_stripe.elements();
+   
+   //Set up stylings
+   var payments_stripe_elements_style = {
+     base: {
+       color: '#fcfcfc',
+       iconColor: '#fff',
+       lineHeight: '24px',
+       fontFamily: '"Cabin", Helvetica',
+       fontSmoothing: 'antialiased',
+       fontSize: '16px',
+       '::placeholder': {color: '#e0d9e3'}
+     },
+     invalid: {color: '#fabe5a', iconColor: '#fabe5a'}
+   };
+   
+   //Initialise the elements
+   var payments_stripe_card = payments_stripe_elements.create('card', {style: payments_stripe_elements_style});
+   payments_stripe_card.mount('#payments_stripe_elements_card');
+   
+   //Function for erroring
+   function payments_stripe_transaction(result) {
+     var errorElement = document.querySelector('.payments_details_error');
+     //errorElement.classList.remove('payments_details_status_visible');
+   
+     if (result.token){
+       var payments_stripe_form = document.getElementById('stripe_payments_form');
+       var payments_stripe_token = document.createElement('input');
+       var payments_order_token = document.createElement('input');
+       payments_stripe_token.setAttribute('type', 'hidden');
+       payments_stripe_token.setAttribute('name', 'payments_stripe_token');
+       payments_stripe_token.setAttribute('value', result.token.id);
+       payments_order_token.setAttribute('type', 'hidden');
+       payments_order_token.setAttribute('name', 'payments_order_token');
+       payments_order_token.setAttribute('value', GET('oid'));
+       payments_stripe_form.appendChild(payments_stripe_token);
+       payments_stripe_form.appendChild(payments_order_token);
+   
+       // Submit the form
+       payments_stripe_form.submit();
+     }else if(result.error){
+       errorElement.innerHTML = result.error.message;
+       errorElement.classList.add('payments_details_status_visible');
+     }
+   }
+   
+   //When the card input is changed
+   payments_stripe_card.on('change', function(event) {
+     var errorElement = document.querySelector('.payments_details_error');
+     errorElement.classList.remove('payments_details_status_visible');
+     payments_stripe_transaction(event);
+   });
+   
+   //Detect if the form has been submitted and generate a token
+   document.querySelector('form').addEventListener('submit', function(e) {
+     e.preventDefault();
+     var errorElement = document.querySelector('.payments_details_error');
+     errorElement.classList.remove('payments_details_status_visible');
+     var form = document.querySelector('form');
+     //Make sure values are filled
+     if(form.querySelector('input[id=payments_customer_name]').value == "" || form.querySelector('input[id=payments_customer_email]').value == ""){
+       errorElement.innerHTML = "Please fill in the form correctly";
+       errorElement.classList.add('payments_details_status_visible');
+       return;
+     }
+     var payments_stripe_extraDetails = {
+       name: form.querySelector('input[id=payments_customer_name]').value,
+       email: form.querySelector('input[id=payments_customer_email]').value,
+     };
+     errorElement.innerHTML = "Please Wait.";
+     errorElement.classList.add('payments_details_status_visible');
+     payments_stripe.createToken(payments_stripe_card, payments_stripe_extraDetails).then(payments_stripe_transaction);
+   
+   });</script>
+  </body>
+</html>

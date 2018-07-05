@@ -20,6 +20,9 @@ def index(req):
     print(products)
     return render(req, 'rent/index.html', {'recent_listings': products})
 
+def checkout(req):
+    return render(req, 'rent/checkout.html')
+
 def auth(req):
     form = LoginForm()
     if req.method == "POST":
